@@ -10,6 +10,8 @@ const authorizationMiddleware =  (req, res, next) => {
         } catch(e) {
             res.send("sorry man");
         }
+    } else {
+        res.send("sorry man");
     }
 }
 
