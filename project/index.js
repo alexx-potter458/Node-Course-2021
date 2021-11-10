@@ -9,6 +9,8 @@ const authorizationMiddleware = require('./middlewares/authMiddleware');
 const loginHandler = require('./controllers/login');
 const { getAllUsers, getUserById, updateUser, createUser, deleteUser } = require('./controllers/users');
 const { getAllPosts, getPostById, createPost, updatePost, deletePost, addTagToPost } = require('./controllers/posts');
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./graphql');
 
 const app = express();
 
@@ -23,6 +25,13 @@ app.use((req, res, next) => {
     console.log("Time: ", Date.now());
     next();
 });
+
+app.use(
+    '/graphql',
+    graphqlHTTP({
+      schema: schema,
+    }),
+  );
 
 app.get('/', (req, res) => {
     res.send('Olla amigo');
