@@ -97,15 +97,11 @@ module.exports.addTagToPost = async (req, res) => {
     });
   }
 
-
-
-
 }
 
 module.exports.updatePost = (req, res) => {
   
 }
-
 
 module.exports.deletePost = (req, res) => {
   
