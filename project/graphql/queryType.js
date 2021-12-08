@@ -3,13 +3,16 @@ const {
     GraphQLList,
     GraphQLID,
     GraphQLNonNull,
+    GraphQLString,
   } = require('graphql');
   const db = require('../models');
   
   const userType = require('./types/userType');
   const postType = require('./types/postType');
+  const searchResultType = require('./types/searchResultType')
   const { getAllUsers, getUserById } = require('../repository/users');
-  const { getAllPosts, getPostById } = require('../repository/posts');
+  const { getAllPosts, getPostById } = require('../repository/posts');  
+  const { search } = require('../repository/search');
   
   const queryType = new GraphQLObjectType({
     name: 'Query',
@@ -48,7 +51,17 @@ const {
           return getPostById(id);
         }
       },
-  
+      search: {
+        type: new GraphQLList(searchResultType), 
+        args: {
+          query: {
+            type: GraphQLString
+          }
+        },
+        resolve: async(source, {query}) => {
+          return search(query)
+        }
+      }
     }
   });
   
