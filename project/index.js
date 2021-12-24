@@ -8,7 +8,7 @@ const { graphqlHTTP } = require('express-graphql');
 
 const { port } = require('./config/express');
 
-const authorizationMiddleware = require('./middlewares/authorization');
+const authorizationMiddleware = require('./middlewares/authMiddleware');
 
 const schema = require('./graphql');
 
