@@ -1,11 +1,15 @@
-const {GraphQLSchema, GraphQLObjectType, GraphQLString} = require('graphql');
-
-const query = require('./queryType');
-const mutation = require('./mutationType')
-
-const schema = new GraphQLSchema({
-    query: query,
-    mutation: mutation,
-});
-
-module.exports = schema;
+const { 
+    GraphQLSchema, 
+  } = require('graphql');
+  
+  const queryType = require('./queryType');
+  const mutationType = require('./mutationType');
+  const subscriptionType = require('./subscriptionType');
+  
+  const schema = new GraphQLSchema({
+    query: queryType,
+    mutation: mutationType,
+    subscription: subscriptionType,
+  });
+  
+  module.exports = schema;

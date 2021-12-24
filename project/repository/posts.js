@@ -9,24 +9,16 @@ module.exports.getAllPosts = async () => {
     return null;
   }
 }
-module.exports.getPostById = async (req, res) => {
-  const postId = parseInt(req.params.id);
+
+module.exports.getPostById = async (id) => {
+  const postId = parseInt(id);
   
   try {
     const post = await db.Post.findByPk(postId);
-    const author = await post.getUser();
-
-    const response = {
-      ...post.dataValues,
-      author
-    };
-
-    res.send(response);
+    return post;
   } catch (error) {
     console.error('Something went wrong');
-    res.send({
-      error: "Something went wrong",
-    });
+    return null;
   }
 }
 
@@ -93,13 +85,28 @@ module.exports.addTagToPost = async (req, res) => {
       error: "Something went wrong",
     });
   }
-
 }
 
 module.exports.updatePost = (req, res) => {
   
 }
 
+
 module.exports.deletePost = (req, res) => {
   
+}
+
+module.exports.createComment = async (postId, userId, body) => {
+  try {
+    const comment = await db.Comment.create({
+      userId, 
+      postId, 
+      body
+    });
+    return comment;
+  } catch (error) {
+    console.log('error', error)
+    console.error('Something went wrong');
+    return null;
+  }
 }
