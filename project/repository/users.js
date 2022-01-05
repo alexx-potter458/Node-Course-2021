@@ -1,5 +1,7 @@
 const db = require('../models');
 
+const Permissions = require('../config/permissions');
+
 module.exports.getAllUsers = async () => {
   try {
     const allUsers = await db.User.findAll();
@@ -35,14 +37,16 @@ module.exports.createUser = async (args) => {
 // Updated User
 module.exports.updateUser = async (args, context) => {
   const { user } = context;
-  
-  if(!user) {
-    return null;
-  }
 
   const { id } = user;
   
   const { email, firstName, lastName } = args;
+
+  const hasPermission = await user.can(Permissions.UPDATE_USER);
+  
+  if(!hasPermission) {
+    return null;
+  }
 
   try {
     await db.User.update({
@@ -60,18 +64,6 @@ module.exports.updateUser = async (args, context) => {
 }
 
 // Nothing
-module.exports.deleteUser = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const userById = await db.User.destroy({
-      where: {
-        id: userId
-      }
-    });
-
-    console.log("user deleted");
-  } catch (error) {
-    console.error('Something went wrong');
-   
-  } 
+module.exports.deleteUser = (req, res) => {
+  
 }
